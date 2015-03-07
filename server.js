@@ -142,7 +142,7 @@ var errorHander = function (req, res) {
 };
 
 var authenticate = function (creds, callback) {
-    if (!creds || creds.name !== 'node' || creds.pass !== 'password') {
+    if (!creds || creds.name !== un || creds.pass !== pw) {
         callback(false);
     } else {
         callback(true);
