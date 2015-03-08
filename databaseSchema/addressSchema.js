@@ -23,8 +23,7 @@
  */
 var mongoose = require('mongoose');
 
-var addressSchema = new mongoose.Schema({
-    billing: {type: Boolean, default: false}, 
+var addressSchema = new mongoose.Schema({    
     address: {type: String, required: true, trim: true},
     city: {type: String, required: true, trim: true}, 
     state: {type: String, required: true, trim: true},

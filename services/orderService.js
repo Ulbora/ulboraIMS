@@ -32,8 +32,24 @@ var service = require('./service');
  * @param res
  *      
  */
-exports.create = function (req, res) {
-    service.create(req, res, orderManager);
+//exports.create = function (req, res) {
+    //service.create(req, res, orderManager);
+//};
+exports.create = function (req, res, manager) {
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        service.authenticate(req, res, function (creds) {
+            console.log("in auth callback");
+            orderManager.create(reqBody, creds, function (result) {
+                res.send(result);
+            });
+        });
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
 };
 
 

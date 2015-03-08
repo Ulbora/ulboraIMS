@@ -113,8 +113,6 @@ exports.create = function (req, res, manager) {
         res.status(415);
         res.send({success: false});
     }
-
-
 };
 
 /**

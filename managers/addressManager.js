@@ -29,7 +29,7 @@ var manager = require('../managers/manager');
  * @param json
  *      
  */
-exports.create = function (json, callback) {
+exports.create = function (json, creds, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -37,30 +37,26 @@ exports.create = function (json, callback) {
     var isOk = manager.securityCheck(json);
     if (isOk) {
         var User = db.getUser();
-        User.findById(json.user, function (uerr, foundUser) {
-            if (!uerr && (foundUser === undefined || foundUser === null)) {
-                var Address = db.getAddress();
-                Address.findOne({name: json.name}, function (err, results) {
-                    console.log("found in create: " + JSON.stringify(results));
-                    if (!err && (results === undefined || results === null)) {
-                        var add = new Address(json);
-                        add.save(function (err) {
-                            if (err) {
-                                returnVal.message = "save failed";
-                                console.log("save error: " + err);
-                            } else {
-                                returnVal.success = true;
-                            }
-                            callback(returnVal);
-                        });
+        User.findById(creds.id, function (uerr, foundUser) {
+            console.log("found user: " + JSON.stringify(foundUser));
+            if (!uerr && foundUser !== undefined && foundUser !== null) {
+                json.user = creds.id;
+                var Address = db.getAddress();                
+                var add = new Address(json);
+                add.save(function (err) {
+                    if (err) {
+                        returnVal.message = "save failed";
+                        console.log("save error: " + err);
                     } else {
-                        returnVal.message = "existing";
-                        callback(returnVal);
+                        returnVal.success = true;
                     }
-                });
+                    callback(returnVal);
+                });                
+            } else {
+                console.log("user not found");
+                callback(returnVal);
             }
         });
-
     } else {
         callback(returnVal);
     }
@@ -150,8 +146,8 @@ exports.get = function (id, callback) {
     var isOk = manager.securityCheck(id);
     if (isOk) {
         console.log("id: " + id);
-        var Order = db.getOrder();
-        Order.findById(id, function (err, results) {
+        var Address = db.getAddress();
+        Address.findById(id, function (err, results) {
             console.log("found: " + JSON.stringify(results));
             if (!err && (results !== undefined && results !== null)) {
                 callback(results);
@@ -170,11 +166,11 @@ exports.get = function (id, callback) {
  * @param json
  *      
  */
-exports.list = function (json, callback) {
-    var isOk = manager.securityCheck(json);
-    if (isOk) {
+exports.list = function (creds, callback) {
+    //var isOk = manager.securityCheck(json);
+    //if (isOk) {
         var Address = db.getAddress();
-        Address.find({user: json.user}, null, {sort: {address: 1}}, function (aerr, results) {
+        Address.find({user: creds.id}, null, {sort: {address: 1}}, function (aerr, results) {
             console.log("found list: " + JSON.stringify(results));
             if (aerr) {
                 callback({});
@@ -186,7 +182,7 @@ exports.list = function (json, callback) {
                 }
             }
         });
-    } else {
-        callback({});
-    }
+    //} else {
+        //callback({});
+   // }
 };

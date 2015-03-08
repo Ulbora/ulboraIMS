@@ -29,29 +29,63 @@ var manager = require('../managers/manager');
  * @param json
  *      
  */
-exports.create = function (json, callback) {
+exports.create = function (json, creds, callback) {
     var returnVal = {
         success: false,
         message: ""
     };
     var isOk = manager.securityCheck(json);
     if (isOk) {
-        var Order = db.getOrder();
-        Order.findOne({name: json.name}, function (err, results) {
-            console.log("found in create: " + JSON.stringify(results));
-            if (!err && (results === undefined || results === null)) {
-                var ord = new Order(json);
-                ord.save(function (err) {
-                    if (err) {
-                        returnVal.message = "save failed";
-                        console.log("save error: " + err);
+        var Address = db.getAddress();
+        Address.findById(json.billingAddress, function (berr, billingAdd) {
+            console.log("found in billing address: " + JSON.stringify(billingAdd));
+            if (!berr && (billingAdd !== undefined && billingAdd !== null)) {
+                Address.findById(json.shippingAddress, function (bserr, shipAdd) {
+                    console.log("found in shipping address: " + JSON.stringify(shipAdd));
+                    if (!bserr && (shipAdd !== undefined && shipAdd !== null)) {
+                        var orderItemList = json.items;
+                        delete json.items;
+                        var Order = db.getOrder();
+                        json.user = creds.id;
+                        var ord = new Order(json);
+                        ord.save(function (err) {
+                            if (err) {
+                                returnVal.message = "save failed";
+                                console.log("save error: " + err);
+                                callback(returnVal);
+                            } else {
+                                if (orderItemList !== undefined && orderItemList !== null && orderItemList.length > 0) {
+                                    var OrderItem = db.getOrderItem();
+                                    //var fail = false;
+                                    for (var cnt = 0; cnt < orderItemList.length; cnt++) {
+                                        var item = orderItemList[cnt];
+                                        item.order = ord._id;
+                                        var oi = new OrderItem(item);
+                                        oi.save(function (err) {
+                                            if (err) {
+                                                returnVal.message = "save failed";
+                                                console.log("save error: " + err);
+                                                fail = true;
+                                            }
+                                        });
+                                        if (cnt === orderItemList.length - 1) {
+                                            //if (!fail) {
+                                            returnVal.success = true;
+                                            //}
+                                            callback(returnVal);
+                                        }
+                                    }
+                                } else {
+                                    returnVal.success = true;
+                                    callback(returnVal);
+                                }
+                            }
+                        });
                     } else {
-                        returnVal.success = true;
+                        callback(returnVal);
                     }
-                    callback(returnVal);
                 });
             } else {
-                returnVal.message = "existing";
                 callback(returnVal);
             }
         });
@@ -121,6 +155,7 @@ exports.delete = function (id, callback) {
             if (!err && (results !== undefined && results !== null)) {
                 results.remove();
                 returnVal.success = true;
+                deleteItems(id);
                 callback(returnVal);
             } else {
                 callback(returnVal);
@@ -198,3 +233,15 @@ exports.customerOrderlist = function (userId, callback) {
     });
 };
 
+deleteItems = function (orderId) {
+    var OrderItem = db.getOrderItem();
+    OrderItem.find({order: orderId}, function (err, results) {
+        console.log("found list: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            for (var cnt = 0; cnt < results.length; cnt++) {
+                var i = results[cnt];
+                i.remove();
+            }
+        }
+    });
+};

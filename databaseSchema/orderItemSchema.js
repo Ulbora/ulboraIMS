@@ -25,6 +25,7 @@ var mongoose = require('mongoose');
 
 var orderItemSchema = new mongoose.Schema({    
     order: {type: mongoose.Schema.ObjectId, required: true, ref: "Order"},
-    product: {type: mongoose.Schema.ObjectId, required: true, ref: "Product"}    
+    product: {type: mongoose.Schema.ObjectId, required: true, ref: "Product"},
+    count: {type: Number, required: true}
 });
 module.exports = orderItemSchema;

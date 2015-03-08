@@ -21,7 +21,7 @@
  Author: Ken Williamson (ken@ulboralabs.com) 
  */
 var service = require('./service');
-var productManager = require('../managers/productManager');
+var addressManager = require('../managers/addressManager');
 var service = require('./service');
 
 
@@ -32,9 +32,26 @@ var service = require('./service');
  * @param res
  *      
  */
-exports.create = function (req, res) {
-    service.create(req, res, productManager);
+//exports.create = function (req, res) {
+    //service.create(req, res, addressManager);
+//};
+exports.create = function (req, res, manager) {
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        service.authenticate(req, res, function (creds) {
+            console.log("in auth callback");
+            addressManager.create(reqBody, creds, function (result) {
+                res.send(result);
+            });
+        });
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
 };
+
 
 
 /**
@@ -45,7 +62,7 @@ exports.create = function (req, res) {
  *      
  */
 exports.update = function (req, res) {
-    service.update(req, res, productManager);
+    service.update(req, res, addressManager);
 };
 
 
@@ -57,7 +74,7 @@ exports.update = function (req, res) {
  *      
  */
 exports.delete = function (req, res) {
-    service.delete(req, res, productManager);
+    service.delete(req, res, addressManager);
 };
 
 
@@ -69,7 +86,7 @@ exports.delete = function (req, res) {
  *      
  */
 exports.get = function (req, res) {
-    service.get(req, res, productManager);
+    service.get(req, res, addressManager);
 };
 
 
@@ -80,6 +97,14 @@ exports.get = function (req, res) {
  * @param res
  *      
  */
-exports.list = function (req, res) {
-    service.list(req, res, productManager);
+//exports.list = function (req, res) {
+    //service.list(req, res, addressManager);
+//};
+exports.list = function (req, res, manager) {
+    authenticate(req, res, function (creds) {
+        console.log("in auth callback");
+        addressManager.list(creds, function (result) {
+            res.send(result);
+        });
+    });
 };
