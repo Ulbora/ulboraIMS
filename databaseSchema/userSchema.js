@@ -1,3 +1,4 @@
+//productSchema
 /*     
  Copyright (C) 2015 Driven Solutions (www.drivensolutions.com)
  All rights reserved.
@@ -20,25 +21,13 @@
  
  Author: Ken Williamson (ken@ulboralabs.com) 
  */
+var mongoose = require('mongoose');
 
-var HOST = "localhost";
-var DATABASE_NAME = "ulboraIMS";
-var PORT = 8080;
-
-//cors allowed origins
-var ALLOWED_ORIGINS = "*";
-var CORS_ENABLED = false;
-
-
-
-
-
-
-
-
-
-exports.HOST = HOST;
-exports.DATABASE_NAME = DATABASE_NAME;
-exports.PORT = PORT;
-exports.ALLOWED_ORIGINS = ALLOWED_ORIGINS;
-exports.CORS_ENABLED = CORS_ENABLED;
+var userSchema = new mongoose.Schema({
+    firstName: {type: String, required: true, trim: true},
+    lastName: {type: String, required: true, trim: true}, 
+    emailAddress: {type: String, required: true, trim: true}, 
+    username: {type: String, required: true, trim: true},
+    password: {type: String, required: true, trim: true}    
+});
+module.exports = userSchema;

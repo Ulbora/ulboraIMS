@@ -20,25 +20,65 @@
  
  Author: Ken Williamson (ken@ulboralabs.com) 
  */
-
-var HOST = "localhost";
-var DATABASE_NAME = "ulboraIMS";
-var PORT = 8080;
-
-//cors allowed origins
-var ALLOWED_ORIGINS = "*";
-var CORS_ENABLED = false;
+var service = require('./service');
+var productManager = require('../managers/productManager');
 
 
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.create = function (req, res) {
+    service.create(req, res, productManager);
+};
 
 
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.update = function (req, res) {
+    service.update(req, res, productManager);
+};
 
 
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.delete = function (req, res) {
+    service.delete(req, res, productManager);
+};
 
 
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.get = function (req, res) {
+    service.get(req, res, productManager);
+};
 
-exports.HOST = HOST;
-exports.DATABASE_NAME = DATABASE_NAME;
-exports.PORT = PORT;
-exports.ALLOWED_ORIGINS = ALLOWED_ORIGINS;
-exports.CORS_ENABLED = CORS_ENABLED;
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.list = function (req, res) {
+    service.list(req, res, productManager);
+};

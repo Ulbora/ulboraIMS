@@ -10,7 +10,7 @@
     },
     "keywords": ["Ulbora CMS", "Node.js", "Ken", "Williamson", "micbutton.com" , "shopping cart", "angularjs"],
     "licenses": {
-        "type": "MIT"
+        "type": "GPLv3"
     },
     "repository": {
         "type": "git",

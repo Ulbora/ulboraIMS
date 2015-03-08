@@ -1,4 +1,26 @@
 #!/bin/env node
+/*     
+ Copyright (C) 2015 Driven Solutions (www.drivensolutions.com)
+ All rights reserved.
+ 
+ Copyright (C) 2015 Ken Williamson
+ All rights reserved.
+ Copyright (C) 2015 Chris Williamson
+ All rights reserved.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ 
+ Author: Ken Williamson (ken@ulboralabs.com) 
+ */
 var express = require('express');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
@@ -6,6 +28,11 @@ var logger = require('morgan');
 var basicAuth = require('basic-auth');
 var conf = require('./configuration');
 var cors = require('./cors/cors');
+var addressService = require('./services/addressService');
+var orderItemService = require('./services/orderItemService');
+var orderService = require('./services/orderService');
+var productService = require('./services/productService');
+var userService = require('./services/userService');
 var un = 'node';//change this to something private
 var pw = 'password';//change this to something private
 
@@ -88,21 +115,126 @@ var ulboraIMS = function () {
             self.app.use(cors.CORS);
         }
 
-        //self.app.set("views", __dirname + "/");
-        //var auth = basicAuth(un, pw);
-        //var credentials = basicAuth(req);
-        //db.initializeMongoDb();
 
-        // initial web apps
-        //initializeWebApp(self);
+        //address
+        self.app.post('/rs/address', addressService.create);
+        self.app.put('/rs/address', addressService.update);
+        self.app.delete('/rs/address/:id', addressService.delete);
+        self.app.get('/rs/address/:id', addressService.get);
+        self.app.post('/rs/address/list', addressService.list);
 
+        //orderItem
+        self.app.post('/rs/orderItems', orderItemService.create);
+        self.app.put('/rs/orderItems', orderItemService.update);
+        self.app.delete('/rs/orderItems/:id', orderItemService.delete);
+        self.app.get('/rs/orderItems/:id', orderItemService.get);
+        self.app.post('/rs/orderItems/list', orderItemService.list);
 
+        //order
+        self.app.post('/rs/order', orderService.create);
+        self.app.put('/rs/order', orderService.update);
+        self.app.delete('/rs/order/:id', orderService.delete);
+        self.app.get('/rs/order/:id', orderService.get);
+        self.app.post('/rs/order/list', orderService.list);
 
-        self.app.get('/rs/test', function (req, res) {
+        //product
+        self.app.get('/rs/product', function (req, res) {
             var credentials = basicAuth(req);
             authenticate(credentials, function (success) {
-                if (success) {                    
-                    res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
+                if (success) {
+                    productService.create(req, res);
+                } else {
+                    reject(res);
+                }
+            });
+
+        });
+
+
+        self.app.put('/rs/product', function (req, res) {
+            var credentials = basicAuth(req);
+            authenticate(credentials, function (success) {
+                if (success) {
+                    productService.update(req, res);
+                } else {
+                    reject(res);
+                }
+            });
+
+        });
+
+
+        self.app.delete('/rs/product', function (req, res) {
+            var credentials = basicAuth(req);
+            authenticate(credentials, function (success) {
+                if (success) {
+                    productService.delete(req, res);
+                } else {
+                    reject(res);
+                }
+            });
+
+        });
+        self.app.get('/rs/product', function (req, res) {
+            //var credentials = basicAuth(req);
+            //authenticate(credentials, function (success) {
+            //if (success) {                    
+            productService.create(req, res);
+            //} else {
+            //reject(res);
+            // }
+            // });
+
+        });
+
+        self.app.post('/rs/product/list', function (req, res) {
+            // var credentials = basicAuth(req);
+            //authenticate(credentials, function (success) {
+            //if (success) {                    
+            productService.delete(req, res);
+            // } else {
+            //reject(res);
+            //}
+            //});
+
+        });
+
+
+
+        //user
+        self.app.post('/rs/user', function (req, res) {
+            //var credentials = basicAuth(req);
+            //authenticate(credentials, function (success) {
+            //if (success) {                    
+            userService.create(req, res);
+            //} else {
+            //  reject(res);
+            //}
+            //});
+
+        });
+
+        self.app.put('/rs/user', userService.update);
+        self.app.get('/rs/user', userService.get);
+
+        self.app.post('/rs/user', function (req, res) {
+            var credentials = basicAuth(req);
+            authenticate(credentials, function (success) {
+                if (success) {
+                    userService.list(req, res);
+                } else {
+                    reject(res);
+                }
+            });
+
+        });
+
+
+        self.app.post('/rs/test', function (req, res) {
+            var credentials = basicAuth(req);
+            authenticate(credentials, function (success) {
+                if (success) {
+                    productService.create(req, res);
                 } else {
                     reject(res);
                 }
