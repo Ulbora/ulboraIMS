@@ -22,6 +22,7 @@
  */
 var service = require('./service');
 var orderItemManager = require('../managers/orderItemManager');
+var service = require('./service');
 
 
 /**

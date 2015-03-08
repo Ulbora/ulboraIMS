@@ -40,11 +40,11 @@ exports.create = function (json, callback) {
         User.findOne({username: json.username}, function (err, results) {
             console.log("found user in create: " + JSON.stringify(results));
             if (!err && (results === undefined || results === null)) {
-                var allowAdd = true;
-                if (roleResults.roleName === manager.ROLE_SUPER_ADMIN && creds.role !== manager.ROLE_SUPER_ADMIN) {
-                    allowAdd = false;
-                }
-                if (allowAdd) {
+               // var allowAdd = true;
+                //if (roleResults.roleName === manager.ROLE_SUPER_ADMIN && creds.role !== manager.ROLE_SUPER_ADMIN) {
+                    //allowAdd = false;
+               // }
+                //if (allowAdd) {
                     json.password = manager.hashPasswordSync(json.username, json.password);
                     var u = new User(json);
                     u.save(function (err) {
@@ -56,9 +56,9 @@ exports.create = function (json, callback) {
                         }
                         callback(returnVal);
                     });
-                } else {
-                    callback(returnVal);
-                }
+                //} else {
+                    //callback(returnVal);
+               // }
 
             } else {
                 returnVal.message = "existing user";
@@ -154,7 +154,7 @@ exports.get = function (id, callback) {
 exports.list = function (callback) {
     var returnVal = [];
     var User = db.getUser();
-    User.find(filter, null, {sort: {username: 1}}, function (err, results) {
+    User.find({}, null, {sort: {username: 1}}, function (err, results) {
         console.log("found user list: " + JSON.stringify(results));
         if (err) {
             callback({});

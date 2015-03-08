@@ -22,6 +22,7 @@
  */
 var manager = require('../managers/manager');
 var userManager = require('../managers/userManager');
+var service = require('./service');
 
 /**
  * 

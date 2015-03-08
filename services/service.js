@@ -41,7 +41,7 @@ authenticate = function (req, res, callback) {
                 //var roleAuthized = false;
                 if (!err && results !== undefined && results !== null) {
                     var foundUser = results.toObject();
-                    if (foundUser.password === manager.hashPasswordSync(credentials[0], credentials[1]) && foundUser.enabled) {
+                    if (foundUser.password === manager.hashPasswordSync(credentials[0], credentials[1])) {
                         loginInSuccess = true;
                         console.log("correct password: " + loginInSuccess);
                         //var Role = db.getRole();
@@ -62,16 +62,16 @@ authenticate = function (req, res, callback) {
                                 //}
                            // }
                             //console.log("correct role: " + roleAuthized);
-                            if (!loginInSuccess) {
-                                res.status(401);
-                                res.send();
+                            //if (!loginInSuccess) {
+                               // res.status(401);
+                               // res.send();
                             //} else if (!roleAuthized) {
                                 //res.status(403);
                                // res.send();
-                            } else {
+                            //} else {
                                 console.log("manager login success: " + true);
                                 callback(callbackUserCreds);
-                            }
+                            //}
                        // });
                     } else {
                         console.log("correct password: " + false);

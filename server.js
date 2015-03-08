@@ -138,7 +138,7 @@ var ulboraIMS = function () {
         self.app.post('/rs/order/list', orderService.list);
 
         //product
-        self.app.get('/rs/product', function (req, res) {
+        self.app.post('/rs/product', function (req, res) {
             var credentials = basicAuth(req);
             authenticate(credentials, function (success) {
                 if (success) {
@@ -164,7 +164,7 @@ var ulboraIMS = function () {
         });
 
 
-        self.app.delete('/rs/product', function (req, res) {
+        self.app.delete('/rs/product/:id', function (req, res) {
             var credentials = basicAuth(req);
             authenticate(credentials, function (success) {
                 if (success) {
@@ -175,11 +175,11 @@ var ulboraIMS = function () {
             });
 
         });
-        self.app.get('/rs/product', function (req, res) {
+        self.app.get('/rs/product/:id', function (req, res) {
             //var credentials = basicAuth(req);
             //authenticate(credentials, function (success) {
             //if (success) {                    
-            productService.create(req, res);
+            productService.get(req, res);
             //} else {
             //reject(res);
             // }
@@ -191,7 +191,7 @@ var ulboraIMS = function () {
             // var credentials = basicAuth(req);
             //authenticate(credentials, function (success) {
             //if (success) {                    
-            productService.delete(req, res);
+            productService.list(req, res);
             // } else {
             //reject(res);
             //}
@@ -215,9 +215,9 @@ var ulboraIMS = function () {
         });
 
         self.app.put('/rs/user', userService.update);
-        self.app.get('/rs/user', userService.get);
+        self.app.get('/rs/user/:id', userService.get);
 
-        self.app.post('/rs/user', function (req, res) {
+        self.app.post('/rs/user/list', function (req, res) {
             var credentials = basicAuth(req);
             authenticate(credentials, function (success) {
                 if (success) {
@@ -230,11 +230,11 @@ var ulboraIMS = function () {
         });
 
 
-        self.app.post('/rs/test', function (req, res) {
+        self.app.get('/rs/test', function (req, res) {
             var credentials = basicAuth(req);
             authenticate(credentials, function (success) {
                 if (success) {
-                    productService.create(req, res);
+                    res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
                 } else {
                     reject(res);
                 }
