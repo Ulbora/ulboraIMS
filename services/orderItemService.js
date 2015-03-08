@@ -80,6 +80,31 @@ exports.get = function (req, res) {
  * @param res
  *      
  */
-exports.list = function (req, res) {
-    service.list(req, res, orderItemManager);
+//exports.list = function (req, res) {
+//service.list(req, res, orderItemManager);
+//};
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.list = function (req, res, manager) {
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        service.authenticate(req, res, function () {
+            console.log("in auth callback");
+            orderItemManager.list(reqBody, function (result) {
+                res.send(result);
+            });
+        });
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
+
 };

@@ -380,4 +380,103 @@ res:
 
 
 
+POST: http://localhost:8080/rs/orderItems
+
+res:
+
+{  
+   "order":"54fc899f05467bff15c8fbba",
+   "product":"54fba2006a030ea92917b5ef",
+   "count":"2"
+}
+
+res:
+
+{"success":true,"message":""}
+
+--------------------------------------
+
+
+PUT: http://localhost:8080/rs/orderItems
+
+res:
+
+{
+"id": "54fc899f05467bff15c8fbbb",
+"count": 5
+}
+
+res:
+
+{"success":true,"message":""}
+
+--------------------------------------
+
+GET: http://localhost:8080/rs/orderItems/54fc899f05467bff15c8fbbb
+
+res:
+
+
+
+    {
+       "product": "54fba2006a030ea92917b5ef",
+       "count": 5,
+       "order": "54fc899f05467bff15c8fbba",
+       "_id": "54fc899f05467bff15c8fbbb",
+       "__v": 0
+    }
+
+---------------------------------------
+
+DELETE: http://localhost:8080/rs/orderItems/54fc899f05467bff15c8fbbb
+
+res:
+
+{"success":true,"message":""}
+
+
+
+------------------------------------
+
+POST: http://localhost:8080/rs/orderItems/list
+
+req:
+
+{
+ "order": "54fc899f05467bff15c8fbba"
+}
+
+res:
+
+    [
+       {
+           "product": "54fba2006a030ea92917b5ef",
+           "count": 2,
+           "order": "54fc899f05467bff15c8fbba",
+           "_id": "54fc899f05467bff15c8fbbb",
+           "__v": 0
+       },
+       {
+           "order": "54fc899f05467bff15c8fbba",
+           "product": "54fba2006a030ea92917b5ef",
+           "count": 2,
+           "_id": "54fc94203d24bffb160d23e4",
+           "__v": 0
+       },
+       {
+           "order": "54fc899f05467bff15c8fbba",
+           "product": "54fba2006a030ea92917b5ef",
+           "count": 2,
+           "_id": "54fc979036fcf99e1799d4e1",
+           "__v": 0
+       }
+    ]
+
+
+
+
+
+
+
+
 

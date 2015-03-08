@@ -72,6 +72,45 @@ exports.create = function (json, callback) {
 
 /**
  * 
+ * @param json
+ *      
+ */
+exports.update = function (json, callback) {
+    var returnVal = {
+        success: false,
+        message: ""
+    };
+    var isOk = manager.securityCheck(json);
+    if (isOk) {
+        var OrderItem = db.getOrderItem();
+        OrderItem.findById(json.id, function (err, results) {
+            console.log("found in update: " + JSON.stringify(results));
+            if (!err && (results !== undefined && results !== null)) {
+                var oi = results;
+                oi.count = json.count;
+                oi.save(function (err) {
+                    if (err) {
+                        console.log(" save error: " + err);
+                    } else {
+                        returnVal.success = true;
+                    }
+                    callback(returnVal);
+                });
+
+            } else {
+                returnVal.message = " not found";
+                callback(returnVal);
+            }
+        });
+
+    } else {
+        callback(returnVal);
+    }
+};
+
+
+/**
+ * 
  * @param id
  *      
  */
