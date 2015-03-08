@@ -1,7 +1,5 @@
 GET: http://localhost:8080/rs/test
-
 res:
-
 [{"code":2,"name":"ken"},{"name":"wine2"}]
 
 
@@ -39,13 +37,16 @@ req:
 "currencyCode": "USD",
 "price": 11.22
 }
+
 res:
 
     {
        "success": true,
        "message": ""
     }
+
 ------------------------------------
+
 PUT: http://localhost:8080/rs/product
 req:
 {  
@@ -60,12 +61,13 @@ req:
 
 res:
 
-
     {
        "success": true,
        "message": ""
     }
+
 ----------------------------------------
+
 GET: http://localhost:8080/rs/product/54fba2006a030ea92917b5ef
 res:
     {
@@ -79,10 +81,13 @@ res:
     }
 
 DELETE: http://localhost:8080/rs/product/54fba2006a030ea92917b5ef
+
 res:
 {"success":true,"message":""}
 
+
 ----------------------------
+
 POST: http://localhost:8080/rs/user
 req:
 {
@@ -92,10 +97,12 @@ req:
 "username": "ken",
 "password": "password"
 }
+
 res:
 {"success":true,"message":""}
 
 ----------------------------
+
 PUT: http://localhost:8080/rs/user
 req:
 {
@@ -106,10 +113,13 @@ req:
 "username": "ken",
 "password": ""
 }
+
 res:
 {"success":true,"message":""}
 
+
 -------------------------------
+
 GET: http://localhost:8080/rs/user/54fba6f4c78a41792a185b73
 res:
 {
@@ -123,6 +133,7 @@ res:
     }
    
 ----------------------------
+
 POST: http://localhost:8080/rs/user/list
 res:
     [
@@ -136,6 +147,8 @@ res:
            "__v": 0
        }
     ]
+
+
 
 
 
