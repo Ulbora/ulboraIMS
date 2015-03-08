@@ -1,5 +1,7 @@
 GET: http://localhost:8080/rs/test
+
 res:
+
 [{"code":2,"name":"ken"},{"name":"wine2"}]
 
 
