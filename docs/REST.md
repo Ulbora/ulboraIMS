@@ -1,11 +1,18 @@
 GET: http://localhost:8080/rs/test
+
 res:
+
 [{"code":2,"name":"ken"},{"name":"wine2"}]
 
 
-products---------------------------------------:
+products
+
+---------------------------------------
+
 POST: http://localhost:8080/rs/product/list
+
 res:
+
 [  
    {  
       "name":"test",
@@ -29,8 +36,11 @@ res:
 
 
 -------------------------------------
+
 POST: http://localhost:8080/rs/product
+
 req:
+
 {
 "name": "test",
 "desc": "desc",
@@ -48,7 +58,9 @@ res:
 ------------------------------------
 
 PUT: http://localhost:8080/rs/product
+
 req:
+
 {  
       "name":"test",
       "desc":"desc",
@@ -69,6 +81,7 @@ res:
 ----------------------------------------
 
 GET: http://localhost:8080/rs/product/54fba2006a030ea92917b5ef
+
 res:
     {
        "name": "test",
@@ -89,6 +102,7 @@ res:
 ----------------------------
 
 POST: http://localhost:8080/rs/user
+
 req:
 {
 "firstName": "ken",
@@ -104,6 +118,7 @@ res:
 ----------------------------
 
 PUT: http://localhost:8080/rs/user
+
 req:
 {
 "id": "54fba6f4c78a41792a185b73",
@@ -121,6 +136,7 @@ res:
 -------------------------------
 
 GET: http://localhost:8080/rs/user/54fba6f4c78a41792a185b73
+
 res:
 {
        "firstName": "ken",
@@ -135,6 +151,7 @@ res:
 ----------------------------
 
 POST: http://localhost:8080/rs/user/list
+
 res:
     [
        {
